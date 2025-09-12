@@ -1,0 +1,23 @@
+[
+{
+  "model": "otop_search_thailand.product",
+  "pk": 1,
+  "fields": {
+    "name": "Unnamed",
+    "province": 1,
+    "category": "",
+    "rating": "0.0",
+    "price": "0.00",
+    "description": "",
+    "image_url": "",
+    "address": "",
+    "phone": "",
+    "latitude": null,
+    "longitude": null
+  }
+},
+{
+  "model": "otop_search_thailand.product",
+  "pk": 2,
+  "fields": {
+    "name": 

@@ -1,0 +1,14 @@
+[
+{
+  "model": "otop_search_thailand.province",
+  "pk": 1,
+  "fields": {
+    "name": "Unknown",
+    "slug": "unknown"
+  }
+},
+{
+  "model": "otop_search_thailand.province",
+  "pk": 2,
+  "fields": {
+    "name": 
