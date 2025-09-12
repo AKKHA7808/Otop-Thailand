@@ -6,9 +6,9 @@
   <h2 class="mb-3">รายชื่อจังหวัด</h2>
   <div class="row g-3">
     {% for pv in provinces %}
-    <div class="col-6 col-md-4 col-lg-3">
+    <div class="col-6 col-md-4 col-lg-3 province-item">
       <a class="text-decoration-none" href="{% url 'province_detail' slug=pv.slug %}">
-        <div class="p-3 border rounded-3 h-100 d-flex flex-column justify-content-between">
+        <div class="province-box cardish transition cardish-hover h-100 d-flex flex-column justify-content-between">
           <div class="fw-bold">{{ pv.name }}</div>
           <div class="small text-muted">{{ pv.product_total|default:0 }} รายการสินค้า</div>
         </div>
