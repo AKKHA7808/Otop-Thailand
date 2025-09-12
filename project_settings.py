@@ -18,6 +18,8 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 # Third-party API keys (safe to keep empty by default)
 GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY', '')
+# Map provider: 'google' or 'leaflet'
+MAP_PROVIDER = os.environ.get('MAP_PROVIDER', 'leaflet').lower()
 
 INSTALLED_APPS = [
     'django.contrib.admin',

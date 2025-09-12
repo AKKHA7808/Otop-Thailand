@@ -6,7 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}OTOP Thailand – หนึ่งตำบล หนึ่งผลิตภัณฑ์{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}คลังข้อมูลสินค้า OTOP จากทุกจังหวัดของไทย พร้อมค้นหา/กรอง/ดูตามจังหวัด{% endblock %}" />
-  <link rel="icon" href="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}" />
+  <link rel="icon" type="image/png" href="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}" />
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}" />
+  <link rel="apple-touch-icon" href="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}">
+  <meta property="og:image" content="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}">
+  <link rel="preload" as="image" href="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -22,7 +26,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-brand fixed-top shadow-sm" role="navigation" aria-label="เมนูหลัก">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{% url 'home' %}">
-        <img src="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}" width="28" height="28" alt="โลโก้ OTOP" class="rounded-circle">
+     <img src="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}"
+       width="28" height="28" alt="โลโก้ OTOP" class="rounded-circle">
         OTOP Thailand
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="สลับเมนู">
@@ -43,7 +48,7 @@
   {% block hero %}
   <header class="site-hero text-brand-ink text-center">
     <div class="container d-flex flex-column align-items-center">
-      <img src="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}"
+  <img src="{% static 'otop_search_thailand/assets/img/otop_logo.png' %}"
            width="156" height="156" class="hero-logo shadow-lg" alt="OTOP Logo">
       <h1 class="display-6 fw-bold mb-1">OTOP Thailand</h1>
       <p class="lead opacity-90 mb-0">หนึ่งตำบล หนึ่งผลิตภัณฑ์ – รวมสินค้าและภูมิปัญญาท้องถิ่น</p>

@@ -62,8 +62,11 @@ def search_view(request):
 
 def map_view(request):
     api_key = getattr(settings, 'GOOGLE_MAPS_API_KEY', '') or os.environ.get('GOOGLE_MAPS_API_KEY', '')
+    provider = request.GET.get('provider') or getattr(settings, 'MAP_PROVIDER', 'leaflet')
+    provider = provider.lower()
     return render(request, 'map.html', {
         'GOOGLE_MAPS_API_KEY': api_key,
+        'MAP_PROVIDER': provider,
     })
 
 # ---------- APIs ----------

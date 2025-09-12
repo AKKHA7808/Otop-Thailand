@@ -169,6 +169,7 @@ python manage.py import_otop_json
 - `DATABASE_URL` — ถ้าใช้ `django-environ` หรือ `dj-database-url`
 - `OTOP_JSON_PATH` — เส้นทางไฟล์ข้อมูล OTOP
 - `GOOGLE_MAPS_API_KEY` — คีย์แผนที่
+ - `MAP_PROVIDER` — ค่า `google` (ค่าเริ่มต้น) หรือ `leaflet` เพื่อใช้ OpenStreetMap/Leaflet เป็นตัวเลือกแผนที่หรือ fallback
 
 ไฟล์ตัวอย่าง `.env.example` อยู่ด้านล่าง (ผมจะสร้างไฟล์จริงใน repo):
 
@@ -178,4 +179,5 @@ DATABASE_URL=sqlite:///db.sqlite3
 OTOP_JSON_PATH=D:\\Django\\otop\\otop.json
 GOOGLE_MAPS_API_KEY=
 ALLOWED_HOSTS=127.0.0.1,.vercel.app
+MAP_PROVIDER=google
 ```

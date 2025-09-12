@@ -7,22 +7,58 @@
   <div class="cardish rounded-12 p-2">
     <div id="map" style="height:70vh" class="rounded-3 border"></div>
   </div>
+  <div id="mapNotice" class="small text-muted mt-2"></div>
 {% endblock %}
 {% block extra_js %}
-<script>
-  function initMap(){
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 13.736717, lng: 100.523186}, zoom: 6
-    });
-    fetch('{% url "api_products_json" %}').then(r=>r.json()).then(items=>{
-      items.filter(x=>x.lat!=null && x.lng!=null).forEach(it=>{
-        const m = new google.maps.Marker({position:{lat:it.lat,lng:it.lng}, map, title:it.name});
-        const html = `<div style="min-width:220px"><strong>${it.name}</strong><br/>จังหวัด: ${it.province}<br/>หมวดหมู่: ${it.category||'-'}<br/>โทร: ${it.phone||'-'}</div>`;
-        const iw = new google.maps.InfoWindow({content: html});
-        m.addListener('click', ()=> iw.open({anchor:m, map}));
+{% if MAP_PROVIDER == 'leaflet' %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const map = L.map('map').setView([13.736717, 100.523186], 6);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+      fetch('{% url "api_products_json" %}').then(r=>r.json()).then(items=>{
+        items.filter(x=>x.lat!=null && x.lng!=null).forEach(it=>{
+          const m = L.marker([it.lat, it.lng]).addTo(map);
+          m.bindPopup(`<div style="min-width:220px"><strong>${it.name}</strong><br/>จังหวัด: ${it.province}<br/>หมวดหมู่: ${it.category||'-'}<br/>โทร: ${it.phone||'-'}</div>`);
+        });
       });
+      document.getElementById('mapNotice').textContent = 'Using Leaflet (OpenStreetMap) — no API key required.';
     });
-  }
-</script>
-<script async src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap"></script>
+  </script>
+{% else %}
+  <script>
+    function initMap(){
+      const map = new google.maps.Map(document.getElementById('map'), {center: {lat: 13.736717, lng: 100.523186}, zoom: 6});
+      fetch('{% url "api_products_json" %}').then(r=>r.json()).then(items=>{
+        items.filter(x=>x.lat!=null && x.lng!=null).forEach(it=>{
+          const m = new google.maps.Marker({position:{lat:it.lat,lng:it.lng}, map, title:it.name});
+          const html = `<div style=\"min-width:220px\"><strong>${it.name}</strong><br/>จังหวัด: ${it.province}<br/>หมวดหมู่: ${it.category||'-'}<br/>โทร: ${it.phone||'-'}</div>`;
+          const iw = new google.maps.InfoWindow({content: html});
+          m.addListener('click', ()=> iw.open({anchor:m, map}));
+        });
+      });
+    }
+    window.gm_authFailure = function(){
+      document.getElementById('mapNotice').textContent = 'Google Maps API error. Falling back to Leaflet...';
+      const s = document.createElement('script'); s.defer = true; s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(l);
+      s.onload = ()=>{
+        const map = L.map('map').setView([13.736717, 100.523186], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+        fetch('{% url "api_products_json" %}').then(r=>r.json()).then(items=>{
+          items.filter(x=>x.lat!=null && x.lng!=null).forEach(it=>{
+            const m = L.marker([it.lat, it.lng]).addTo(map);
+            m.bindPopup(`<div style=\"min-width:220px\"><strong>${it.name}</strong><br/>จังหวัด: ${it.province}<br/>หมวดหมู่: ${it.category||'-'}<br/>โทร: ${it.phone||'-'}</div>`);
+          });
+        });
+      };
+      document.body.appendChild(s);
+    }
+  </script>
+  <script async src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap"></script>
+{% endif %}
 {% endblock %}
