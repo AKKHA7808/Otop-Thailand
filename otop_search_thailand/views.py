@@ -61,8 +61,9 @@ def search_view(request):
     return render(request, "search.html")
 
 def map_view(request):
+    api_key = getattr(settings, 'GOOGLE_MAPS_API_KEY', '') or os.environ.get('GOOGLE_MAPS_API_KEY', '')
     return render(request, 'map.html', {
-        'GOOGLE_MAPS_API_KEY': getattr(settings, 'GOOGLE_MAPS_API_KEY', ''),
+        'GOOGLE_MAPS_API_KEY': api_key,
     })
 
 # ---------- APIs ----------
