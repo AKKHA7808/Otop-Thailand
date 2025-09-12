@@ -1,49 +1,29 @@
-## Python
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 *.so
 *.egg-info/
-.build/
-dist/
-build/
-
-## Virtual environments
-.venv/
-venv/
 env/
-ENV/
-.Python
+.venv/
 
-## Django
+# Django
 db.sqlite3
-*.sqlite3
+/staticfiles/
 media/
-staticfiles/
+*.log
 
-## Node / tooling
-node_modules/
-coverage/
-.pytest_cache/
-.mypy_cache/
+# VS Code
+.vscode/
 
-## IDE/OS
+# OS
 .DS_Store
 Thumbs.db
-.idea/
-.vscode/
-.vscode/settings.json
-*.sublime-workspace
-*.sublime-project
 
-## Secrets
+# Env
 .env
-.env.local
 .env.*.local
-*.env
 
-## Misc
-*.log
-backups/
-data/
+# Vercel
+.vercel

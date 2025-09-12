@@ -1,7 +1,20 @@
 import os
+import sys
 import django
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_settings')
+# Ensure project root is on sys.path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+
+# Detect settings module: try 'project_settings', fallback to 'settings'
+settings_module = 'project_settings'
+try:
+    __import__(settings_module)
+except ModuleNotFoundError:
+    settings_module = 'settings'
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 django.setup()
 
 from otop_search_thailand.models import Product
@@ -10,7 +23,8 @@ from otop_search_thailand.models import Product
 def show_products(limit=10):
     qs = Product.objects.select_related('province').all().order_by('id')[:limit]
     for p in qs:
-        print(f"ID: {p.id} | Name: {p.name!r} | Province: {p.province.name if p.province else 'None'} | Updated: {p.updated_at if hasattr(p, 'updated_at') else 'N/A'}")
+        province_name = p.province.name if getattr(p, 'province', None) else 'None'
+        print(f"ID: {p.id} | Name: {p.name!r} | Province: {province_name}")
 
 
 if __name__ == '__main__':
