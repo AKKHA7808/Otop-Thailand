@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock %}
+{% block title %}ค้นหา OTOP จากฐานข้อมูล{% endblock %}
+{% block content %}
+  <h2 class="mb-3">ค้นหา OTOP</h2>
+  <div class="table-responsive">
+    <table id="searchTable" class="table table-striped table-hover align-middle">
+      <thead class="table-dark">
+        <tr><th>ชื่อสินค้า</th><th>จังหวัด</th><th>หมวดหมู่</th><th>เรตติ้ง</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const $ = window.jQuery;
+    if ($ && $.fn.dataTable) {
+      $('#searchTable').DataTable({
+        ajax: { url: '{% url "api_products_json" %}', dataSrc: '' },
+        columns: [{data:'name'},{data:'province'},{data:'category'},{data:'rating'}],
+        pageLength: 10,
+        language: { url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/th.json' }
+      });
+    }
+  });
+</script>
+{% endblock %}

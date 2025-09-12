@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}OTOP Thailand – หน้าแรก{% endblock %}
+{% block nav_home_active %}active{% endblock %}
+{% block content %}
+  <section class="text-center mb-4">
+    <h2 class="fw-bold mb-3">สำรวจ OTOP ได้ง่าย ๆ</h2>
+    <form class="row g-2 justify-content-center" action="{% url 'products' %}" method="get" role="search" aria-label="ค้นหาสินค้า">
+      <div class="col-10 col-md-6">
+        <input name="q" class="form-control form-control-lg" placeholder="พิมพ์ชื่อสินค้า / จังหวัด / หมวดหมู่ แล้วกด Enter" />
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-brand btn-lg" type="submit"><i class="bi bi-search"></i> ค้นหา</button>
+      </div>
+    </form>
+    <div class="text-muted small mt-2">หรือไปที่ <a href="{% url 'province_list' %}">รายชื่อจังหวัด</a> / <a href="{% url 'map' %}">แผนที่</a></div>
+  </section>
+{% endblock %}

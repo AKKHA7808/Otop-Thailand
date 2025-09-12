@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock %}
+{% block title %}แผนที่สินค้า OTOP{% endblock %}
+{% block nav_map_active %}active{% endblock %}
+{% block content %}
+  <h2 class="mb-3">แผนที่สินค้า OTOP (มีพิกัด)</h2>
+  <div id="map" style="height:70vh" class="rounded-3 border"></div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  function initMap(){
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 13.736717, lng: 100.523186}, zoom: 6
+    });
+    fetch('{% url "api_products_json" %}').then(r=>r.json()).then(items=>{
+      items.filter(x=>x.lat!=null && x.lng!=null).forEach(it=>{
+        const m = new google.maps.Marker({position:{lat:it.lat,lng:it.lng}, map, title:it.name});
+        const html = `<div style="min-width:220px"><strong>${it.name}</strong><br/>จังหวัด: ${it.province}<br/>หมวดหมู่: ${it.category||'-'}<br/>โทร: ${it.phone||'-'}</div>`;
+        const iw = new google.maps.InfoWindow({content: html});
+        m.addListener('click', ()=> iw.open({anchor:m, map}));
+      });
+    });
+  }
+</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap"></script>
+{% endblock %}
