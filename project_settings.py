@@ -16,6 +16,9 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '1') in ('1', 'true', 'True')
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
+# Third-party API keys (safe to keep empty by default)
+GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY', '')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +52,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'otop_search_thailand.context_processors.global_settings',
             ],
         },
     },
