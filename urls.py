@@ -3,6 +3,7 @@ from django.urls import path
 from otop_search_thailand import views
 
 urlpatterns = [
+    path('healthz', views.healthz, name='healthz'),
     path('', views.home, name='home'),
     path('products/', views.products_list, name='products'),
     path('provinces/', views.province_list, name='province_list'),

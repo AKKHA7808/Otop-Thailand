@@ -9,6 +9,9 @@ import os
 from .models import Province, Product
 
 # ---------- Home / About ----------
+def healthz(request):
+    return JsonResponse({"status": "ok"})
+
 def home(request):
     total_products = Product.objects.count()
     total_provinces = Province.objects.count()
