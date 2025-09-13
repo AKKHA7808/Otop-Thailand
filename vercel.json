@@ -4,6 +4,7 @@
     "AUTO_MIGRATE": "1",
     "AUTO_SEED": "1",
     "DJANGO_DEBUG": "0",
+    "ALLOWED_HOSTS": "otopthailandapp.vercel.app,.vercel.app",
     "OTOP_JSON_PATH": "",
     "OTOP_JSON_URL": ""
   },
