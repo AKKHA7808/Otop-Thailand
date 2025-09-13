@@ -1,7 +1,7 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/wsgi.py", "use": "@vercel/python@3.11" }
+    { "src": "api/wsgi.py", "use": "@vercel/python" }
   ],
   "buildCommand": "python -m pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput",
   "outputDirectory": "staticfiles",
