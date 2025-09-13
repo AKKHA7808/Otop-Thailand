@@ -91,9 +91,11 @@ if db_url:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
 else:
+    is_serverless = bool(os.environ.get('VERCEL') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME'))
+    sqlite_path = '/tmp/db.sqlite3' if is_serverless else (BASE_DIR / 'db.sqlite3')
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': sqlite_path,
     }
 
 AUTH_PASSWORD_VALIDATORS = []
