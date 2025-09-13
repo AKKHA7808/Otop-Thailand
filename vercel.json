@@ -6,7 +6,6 @@
   "buildCommand": "python -m pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput",
   "outputDirectory": "staticfiles",
   "rewrites": [
-    { "source": "/static/(.*)", "destination": "/$1" },
     { "source": "/(.*)", "destination": "/api/wsgi.py" }
   ]
 }
