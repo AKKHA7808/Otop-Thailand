@@ -15,6 +15,15 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret')
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') in ('1', 'true', 'True')
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+CSRF_TRUSTED_ORIGINS = [o if o.startswith(('http://', 'https://')) else f"https://{o.lstrip('.')}" for o in ALLOWED_HOSTS if o and o != '*']
+
+# Honor X-Forwarded-Proto/SSL from Vercel
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', '1') in ('1','true','True')
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', '1') in ('1','true','True')
+SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', '0' if DEBUG else '3600'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get('SECURE_HSTS_INCLUDE_SUBDOMAINS', '0') in ('1','true','True')
+SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', '0') in ('1','true','True')
 
 # Third-party API keys (safe to keep empty by default)
 GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY', '')
