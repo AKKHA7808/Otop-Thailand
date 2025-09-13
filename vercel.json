@@ -2,7 +2,10 @@
   "version": 2,
   "env": {
     "AUTO_MIGRATE": "1",
-    "DJANGO_DEBUG": "0"
+    "AUTO_SEED": "1",
+    "DJANGO_DEBUG": "0",
+    "OTOP_JSON_PATH": "",
+    "OTOP_JSON_URL": ""
   },
   "builds": [
     { "src": "api/wsgi.py", "use": "@vercel/python" }
