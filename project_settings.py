@@ -78,7 +78,12 @@ if db_url:
     try:
         import dj_database_url
 
-        DATABASES['default'] = dj_database_url.parse(db_url, conn_max_age=600)
+        cfg = dj_database_url.parse(db_url, conn_max_age=600)
+        eng = cfg.get('ENGINE', '')
+        if 'postgresql' in eng or 'postgres' in eng:
+            opts = cfg.setdefault('OPTIONS', {})
+            opts.setdefault('sslmode', 'require')
+        DATABASES['default'] = cfg
     except Exception:
         # Fallback to SQLITE if dj_database_url is not available
         DATABASES['default'] = {
