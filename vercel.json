@@ -4,9 +4,12 @@
     "AUTO_MIGRATE": "1",
     "AUTO_SEED": "1",
     "DJANGO_DEBUG": "0",
-    "ALLOWED_HOSTS": "otopthailandapp.vercel.app,.vercel.app",
+    "ALLOWED_HOSTS": "newotopthailandapp.vercel.app,.vercel.app",
     "OTOP_JSON_PATH": "",
-    "OTOP_JSON_URL": ""
+    "OTOP_JSON_URL": "https://raw.githubusercontent.com/OWNER/REPO/BRANCH/path/to/otop.json",
+    "DATABASE_URL": "postgres://USER:PASSWORD@HOST:5432/DBNAME?sslmode=require",
+    "MAP_PROVIDER": "leaflet",
+    "GOOGLE_MAPS_API_KEY": ""
   },
   "builds": [
     { "src": "api/wsgi.py", "use": "@vercel/python" }
