@@ -112,3 +112,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Use BigAutoField to avoid auto-created primary key warnings
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Optional path to the raw OTOP JSON file for the file-serving endpoint
+# Do NOT read the file at import time. Only define the path.
+_default_otop_json = BASE_DIR / 'otop.json'
+OTOP_JSON_PATH = os.environ.get('OTOP_JSON_PATH') or (
+    str(_default_otop_json) if _default_otop_json.exists() else ''
+)
