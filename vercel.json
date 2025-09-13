@@ -1,12 +1,12 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "api/**/*.py": { "runtime": "vercel-python@3.11", "maxDuration": 10 }
-  },
+  "version": 2,
+  "builds": [
+    { "src": "api/wsgi.py", "use": "@vercel/python@3.11" }
+  ],
   "buildCommand": "python -m pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput",
   "outputDirectory": "staticfiles",
-  "rewrites": [
-    { "source": "/static/(.*)", "destination": "/$1" },
-    { "source": "/(.*)", "destination": "/api/wsgi.py" }
+  "routes": [
+    { "src": "/static/(.*)", "dest": "/$1" },
+    { "src": "/(.*)", "dest": "api/wsgi.py" }
   ]
 }
