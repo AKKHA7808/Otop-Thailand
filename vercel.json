@@ -7,7 +7,6 @@
   "ALLOWED_HOSTS": "otopthailandapp.vercel.app,newotopthailandapp.vercel.app,.vercel.app",
     "OTOP_JSON_PATH": "",
   "OTOP_JSON_URL": "https://raw.githubusercontent.com/AKKHA7808/Otop-Thailand/main/otop.json",
-    "DATABASE_URL": "postgres://USER:PASSWORD@HOST:5432/DBNAME?sslmode=require",
     "MAP_PROVIDER": "leaflet",
     "GOOGLE_MAPS_API_KEY": ""
   },

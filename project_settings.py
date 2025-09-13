@@ -14,8 +14,18 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret')
 
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') in ('1', 'true', 'True')
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
-CSRF_TRUSTED_ORIGINS = [o if o.startswith(('http://', 'https://')) else f"https://{o.lstrip('.')}" for o in ALLOWED_HOSTS if o and o != '*']
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '*').split(',') if h.strip()]
+_csrf_hosts = []
+for host in ALLOWED_HOSTS:
+    if host == '*':
+        continue
+    if host.startswith('.'):
+        _csrf_hosts.append(f"https://*.{host.lstrip('.')}")
+    elif host.startswith(('http://', 'https://')):
+        _csrf_hosts.append(host)
+    else:
+        _csrf_hosts.append(f"https://{host}")
+CSRF_TRUSTED_ORIGINS = _csrf_hosts
 
 # Honor X-Forwarded-Proto/SSL from Vercel
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -74,7 +84,13 @@ WSGI_APPLICATION = 'api.wsgi.app'
 DATABASES = {}
 # Prefer DATABASE_URL if provided (e.g., Supabase/Postgres)
 db_url = os.environ.get('DATABASE_URL')
-if db_url:
+_placeholders = (
+    None,
+    '',
+    'postgres://USER:PASSWORD@HOST:5432/DBNAME?sslmode=require',
+    'postgresql://USER:PASSWORD@HOST:5432/DBNAME?sslmode=require',
+)
+if db_url and db_url not in _placeholders:
     try:
         import dj_database_url
 
