@@ -11,12 +11,15 @@ if str(BASE_DIR) not in sys.path:
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_settings")
 
 from django.core.wsgi import get_wsgi_application
+
 try:
-    if os.getenv("AUTO_MIGRATE", "").lower() in ("1", "true", "yes", "on"): 
+    if os.getenv("AUTO_MIGRATE", "").lower() in ("1", "true", "yes", "on"):
         # Optionally run migrations on cold start (useful on serverless)
         import django
+
         django.setup()
         from django.core.management import call_command
+
         call_command("migrate", interactive=False, run_syncdb=True)
 except Exception:
     # Avoid crashing the cold start if migrations fail; logs go to stderr
@@ -26,11 +29,14 @@ except Exception:
 try:
     if os.getenv("AUTO_SEED", "").lower() in ("1", "true", "yes", "on"):
         import django
+
         django.setup()
+        import os as _os
+
         from django.conf import settings as dj_settings
         from django.core.management import call_command
+
         from otop_search_thailand.models import Product
-        import os as _os
 
         should_seed = False
         try:
@@ -47,6 +53,7 @@ try:
                 if url:
                     try:
                         import urllib.request
+
                         tmp_path = "/tmp/otop.json"
                         urllib.request.urlretrieve(url, tmp_path)
                         if _os.path.exists(tmp_path):

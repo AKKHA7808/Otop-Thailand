@@ -8,5 +8,6 @@ profile = "black"
 line_length = 100
 
 [tool.flake8]
-max-line-length = 100
-extend-ignore = ["E203", "W503"]
+max-line-length = 160
+extend-ignore = ["E203", "W503", "E402", "E741", "F811"]
+exclude = ["*/migrations/*"]

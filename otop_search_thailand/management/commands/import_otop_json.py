@@ -1,7 +1,8 @@
 import json
 import os
+
 from django.core.management.base import BaseCommand, CommandError
-from django.db import IntegrityError, DatabaseError, transaction
+from django.db import DatabaseError, IntegrityError, transaction
 
 
 class Command(BaseCommand):
@@ -9,7 +10,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--input', '-i', help='Input JSON path', default='data/otop.json')
-        parser.add_argument('--dry-run', action='store_true', help='Simulate import without writing to the database')
+        parser.add_argument(
+            '--dry-run', action='store_true', help='Simulate import without writing to the database'
+        )
 
     def handle(self, *args, **options):
         in_path = options.get('input')
@@ -18,7 +21,7 @@ class Command(BaseCommand):
         if not in_path or not os.path.exists(in_path):
             raise CommandError(f'Input file not found: {in_path}')
 
-        from otop_search_thailand.models import Province, Product
+        from otop_search_thailand.models import Product, Province
 
         with open(in_path, 'r', encoding='utf-8') as f:
             raw = json.load(f)
@@ -68,7 +71,11 @@ class Command(BaseCommand):
                 # Use a transaction for each item to avoid partial writes on error
                 with transaction.atomic():
                     prov_name = (
-                        item.get('province') or item.get('จังหวัด') or item.get('province_name') or item.get('อำเภอ') or 'Unknown'
+                        item.get('province')
+                        or item.get('จังหวัด')
+                        or item.get('province_name')
+                        or item.get('อำเภอ')
+                        or 'Unknown'
                     )
                     province, _ = Province.objects.get_or_create(name=prov_name)
 
@@ -116,7 +123,9 @@ class Command(BaseCommand):
                     defaults = {k: v for k, v in incoming.items() if v not in (None, '')}
 
                     if dry_run:
-                        exists = Product.objects.filter(name=product_name, province=province).exists()
+                        exists = Product.objects.filter(
+                            name=product_name, province=province
+                        ).exists()
                         if exists:
                             if defaults:
                                 updated += 1
@@ -150,10 +159,28 @@ class Command(BaseCommand):
             try:
                 with open(err_log_path, 'w', encoding='utf-8') as ef:
                     for rec in errors_log:
-                        ef.write(json.dumps({'index': rec[0], 'error_type': rec[1], 'message': rec[2], 'item': rec[3]}, ensure_ascii=False))
+                        ef.write(
+                            json.dumps(
+                                {
+                                    'index': rec[0],
+                                    'error_type': rec[1],
+                                    'message': rec[2],
+                                    'item': rec[3],
+                                },
+                                ensure_ascii=False,
+                            )
+                        )
                         ef.write('\n')
-                self.stdout.write(self.style.WARNING(f'Wrote {len(errors_log)} import error records to {err_log_path}'))
+                self.stdout.write(
+                    self.style.WARNING(
+                        f'Wrote {len(errors_log)} import error records to {err_log_path}'
+                    )
+                )
             except Exception as e:
                 self.stderr.write(self.style.ERROR(f'Failed to write error log: {e}'))
 
-        self.stdout.write(self.style.SUCCESS(f'Imported {created} products. Updated {updated}. Skipped {skipped} invalid entries.'))
+        self.stdout.write(
+            self.style.SUCCESS(
+                f'Imported {created} products. Updated {updated}. Skipped {skipped} invalid entries.'
+            )
+        )

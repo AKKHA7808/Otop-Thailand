@@ -1,5 +1,6 @@
 import os
 import sys
+
 import django
 
 # Ensure project root is on sys.path
@@ -34,6 +35,7 @@ import sys
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_settings')
 import django
+
 django.setup()
 
 from otop_search_thailand.models import Product

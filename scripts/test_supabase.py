@@ -1,4 +1,5 @@
 import os
+
 import requests
 
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
@@ -23,8 +24,12 @@ for path in ("/rest/v1/", "/rest/v1"):
     except Exception as e:
         print(f'GET {path} failed:', e)
 
-print('\nNote: a 200 on /rest/v1/ usually means PostgREST is reachable. A 404 may mean no public tables or the anon key lacks permissions.')
+print(
+    '\nNote: a 200 on /rest/v1/ usually means PostgREST is reachable. A 404 may mean no public tables or the anon key lacks permissions.'
+)
 
-print('\nIf you want Django to use Supabase Postgres as its DB, set the full Postgres connection string in DATABASE_URL (in .env) and run migrations:')
+print(
+    '\nIf you want Django to use Supabase Postgres as its DB, set the full Postgres connection string in DATABASE_URL (in .env) and run migrations:'
+)
 print('  DATABASE_URL=postgres://user:password@host:5432/database')
 print("  python manage.py migrate")

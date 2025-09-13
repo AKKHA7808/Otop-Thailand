@@ -6,12 +6,14 @@ from urllib.request import urlopen
 
 BASE = os.environ.get('OTOP_BASE_URL', 'http://127.0.0.1:8000')
 
+
 def mask(key: str) -> str:
     if not key:
         return '(empty)'
     if len(key) <= 10:
         return '***'
     return key[:6] + '...' + key[-4:]
+
 
 def main():
     url = BASE.rstrip('/') + '/map/'
@@ -35,6 +37,7 @@ def main():
     print('Rendered key (masked):', mask(found))
     print('Env key (masked):     ', mask(env_key))
     print('Match:', bool(found and env_key and (found == env_key)))
+
 
 if __name__ == '__main__':
     main()

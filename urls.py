@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path
+
 from otop_search_thailand import views
 
 urlpatterns = [

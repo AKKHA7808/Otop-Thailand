@@ -32,6 +32,7 @@ if isinstance(data, dict):
 
 print('TOTAL_ITEMS', len(data) if isinstance(data, list) else 1)
 
+
 def show_item(i, item):
     print('\n--- ITEM', i, '---')
     if isinstance(item, dict):
@@ -39,6 +40,7 @@ def show_item(i, item):
             print(repr(k), ':', repr(v)[:120])
     else:
         print('NON_DICT_ITEM:', repr(item)[:200])
+
 
 if isinstance(data, list):
     for i, item in enumerate(data[:5], start=1):
